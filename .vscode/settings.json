@@ -1,0 +1,5 @@
+{
+    "editor.formatOnSave": false,
+    "tslint.enable": false,
+    "files.autoSave": "onFocusChange"
+}
