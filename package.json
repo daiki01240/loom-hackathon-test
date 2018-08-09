@@ -9,6 +9,7 @@
     "serve": "webpack-dev-server --mode=development --hot --content-base ./dist --module-bind 'jsx=babel-loader'"
   },
   "dependencies": {
+    "ipfs-api": "^23.0.0",
     "loom-js": "^1.14.0",
     "loom-truffle-provider": "^0.4.0",
     "truffle": "^4.1.13"
