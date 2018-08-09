@@ -15,6 +15,7 @@ contract DappGameCom {
         string contentHash;
     }
 
+    mapping (uint => uint[]) public postsFromGame;
     mapping (address => uint[]) public postsFromAccount;
     mapping (uint => uint[]) public commentsFromPost;
     mapping (uint => address) public commentFromAccount;
@@ -28,7 +29,7 @@ contract DappGameCom {
     constructor () public {
         // created the first post and comment with ID
         // IDs 0 are invalid
-        newPost("", "");
+        newPost("", 0, "");
         newComment(0, "");
         newGame("Zombie Battleground");
     }
@@ -42,10 +43,11 @@ contract DappGameCom {
         games.push(game);
     }
 
-    function newPost(string _text, string _contentHash) public {
+    function newPost(string _text, uint _gameId, string _contentHash) public {
         Post memory post = Post(_text, _contentHash);
         uint postId = posts.push(post) - 1;
         postsFromAccount[msg.sender].push(postId);
+        postsFromGame[_gameId].push(postId);
         emit NewPostAdded(postId, 0, msg.sender);
     }
 
@@ -55,6 +57,10 @@ contract DappGameCom {
         commentsFromPost[_postId].push(commentId);
         commentFromAccount[commentId] = msg.sender;
         emit NewPostAdded(_postId, commentId, msg.sender);
+    }
+
+    function getPostsFromGame(uint _gameId) external view returns (uint[]){
+      return postsFromGame[_gameId];
     }
 
 }

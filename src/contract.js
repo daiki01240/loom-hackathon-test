@@ -79,8 +79,8 @@ export default class Contract {
     return this.currentUserAddress
   }
 
-  async newPost(text, contentHash) {
-    return await this._contract.methods.newPost(text, contentHash).send()
+  async newPost(text, gameId, contentHash) {
+    return await this._contract.methods.newPost(text, gameId, contentHash).send()
   }
 
   async newComment(postId, text) {
@@ -91,12 +91,16 @@ export default class Contract {
     return await this._contract.methods.hasPosts().call()
   }
 
-  async getPosts(index) {
-    return await this._contract.methods.posts(index).call()
+  async getPosts(id) {
+    return await this._contract.methods.posts(id).call()
   }
 
   async getGames(index) {
     return await this._contract.methods.games().call()
+  }
+
+  async getPostsFromGame(gameId){
+    return await this._contract.methods.getPostsFromGame(gameId).call()
   }
 
 }
