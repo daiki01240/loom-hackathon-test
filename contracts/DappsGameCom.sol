@@ -1,5 +1,17 @@
 pragma solidity ^0.4.24;
 
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
+
+contract GameTokens is StandardToken {
+  string public name = "GameToken";
+  string public symbol = "GAME";
+  uint public decimals = 18;
+  uint public initialSupply =1000;
+  function MyToken() public {
+    totalSupply_ = initialSupply;
+    balances[msg.sender] = initialSupply;
+  }
+}
 contract DappGameCom {
 
     struct Game {
