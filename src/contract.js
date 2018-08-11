@@ -79,8 +79,11 @@ export default class Contract {
     return this.currentUserAddress
   }
 
-  async newPost(text, gameId, contentHash) {
-    return await this._contract.methods.newPost(text, gameId, contentHash).send()
+  /**
+   * contentType video|image
+   */
+  async newPost(text, gameId, contentHash, contentType) {
+    return await this._contract.methods.newPost(text, gameId, contentHash, contentType).send()
   }
 
   async newComment(postId, text) {

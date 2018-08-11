@@ -13,6 +13,8 @@ contract DappGameCom {
     struct Post {
         string text;
         string contentHash;
+        // 'video'|'image'
+        string contentType;
     }
 
     mapping (uint => uint[]) public postsFromGame;
@@ -29,7 +31,7 @@ contract DappGameCom {
     constructor () public {
         // created the first post and comment with ID
         // IDs 0 are invalid
-        newPost("", 0, "");
+        newPost("", 0, "", "_contentType");
         newComment(0, "");
         newGame("Zombie Battleground");
     }
@@ -43,8 +45,8 @@ contract DappGameCom {
         games.push(game);
     }
 
-    function newPost(string _text, uint _gameId, string _contentHash) public {
-        Post memory post = Post(_text, _contentHash);
+    function newPost(string _text, uint _gameId, string _contentHash, string _contentType) public {
+        Post memory post = Post(_text, _contentHash, _contentType);
         uint postId = posts.push(post) - 1;
         postsFromAccount[msg.sender].push(postId);
         postsFromGame[_gameId].push(postId);
@@ -60,7 +62,7 @@ contract DappGameCom {
     }
 
     function getPostsFromGame(uint _gameId) external view returns (uint[]){
-      return postsFromGame[_gameId];
+        return postsFromGame[_gameId];
     }
 
 }
