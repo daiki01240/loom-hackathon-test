@@ -83,6 +83,7 @@ export default class Contract {
    * contentType video|image
    */
   async newPost(text, gameId, contentHash, contentType) {
+    console.log(text, gameId, contentHash, contentType)
     return await this._contract.methods.newPost(text, gameId, contentHash, contentType).send()
   }
 
