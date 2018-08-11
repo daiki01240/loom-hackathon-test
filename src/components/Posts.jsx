@@ -17,7 +17,7 @@ class Posts extends Component {
       if (post.post.contentHash != 'none' && post.post.contentType == 'image') {
         return <div><img src={IPFS_BASE_URL + post.post.contentHash} height='200px' /></div>
       } else if (post.post.contentHash != 'none' && post.post.contentType == 'video') {
-        return <video src={IPFS_BASE_URL + post.post.contentHash} height='200px'/>
+        return <video src={IPFS_BASE_URL + post.post.contentHash} height='200px' controls/>
       } else {
         return ''
       }
@@ -38,9 +38,6 @@ class Posts extends Component {
                 {post.text}
               </p>
               <HasContent post={post}/>
-              <div className="like float-right">
-                <button type="button" className="btn btn-success btn-sm">Like</button>
-              </div>
               {/*
               <hr/>
               <div className="comment">
@@ -56,6 +53,9 @@ class Posts extends Component {
                 </div>
               </div>
               */}
+            </div>
+            <div className="action float-right">
+                <button className="like" type="button" className="btn btn-success btn-sm">Like</button>
             </div>
           </div>
         ))}
