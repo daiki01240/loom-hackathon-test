@@ -12,10 +12,10 @@ class Posts extends Component {
 
     const IPFS_BASE_URL = 'https://ipfs.infura.io/ipfs/';
 
-    let HasContent = (post) => {
-      console.log(post);
-      if (post.contentHash != "") {
-        return <img src={IPFS_BASE_URL + post.contentHash} />
+    let HasContent = post => {
+      console.log();
+      if (post.post.contentHash != '') {
+        return <img src={IPFS_BASE_URL + post.post.contentHash} />
       } else {
         return ''
       }
