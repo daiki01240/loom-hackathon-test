@@ -14,8 +14,10 @@ class Posts extends Component {
 
     let HasContent = post => {
       console.log();
-      if (post.post.contentHash != '') {
-        return <img src={IPFS_BASE_URL + post.post.contentHash} />
+      if (post.post.contentHash != 'none' && post.post.contentType == 'image') {
+        return <div><img src={IPFS_BASE_URL + post.post.contentHash} height='200px' /></div>
+      } else if (post.post.contentHash != 'none' && post.post.contentType == 'video') {
+        return <video src={IPFS_BASE_URL + post.post.contentHash} height='200px'/>
       } else {
         return ''
       }

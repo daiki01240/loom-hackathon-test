@@ -22,7 +22,12 @@ class TimeLine extends Component {
     const posts = await Promise.all(
       postIds.map( async id  => {
         const result = await this.contract.getPosts(id);
-        const array = {postId: id, text: result.text, contentHash:result.contentHash};
+        const array = {
+          postId: id,
+          text: result.text,
+          contentHash:result.contentHash,
+          contentType:result.contentType,
+        };
         return array;
       })
     );
