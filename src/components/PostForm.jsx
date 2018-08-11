@@ -6,7 +6,7 @@ class PostForm extends Component {
     super(props);
     this.state = {
       post: '',
-      image_src: '',
+      contentHash: '',
     }
   }
 
@@ -14,14 +14,9 @@ class PostForm extends Component {
     this.setState({ post });
   }
 
-  // handleFileChange(files) {
-  //   this.setState({ image_src: createObjectURL(files[0]) });
-  //   console.log(files);
-  // }
-
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onSubmit(this.state.post);
+    this.props.onSubmit(this.state.post, this.state.contentHash);
   }
 
   handleFileChange (event) {
@@ -42,6 +37,8 @@ class PostForm extends Component {
         return;
       }
       this.ipfsHash = files[0].hash;
+      this.setState({ contentHash: this.ipfsHash });
+      console.log(this.state.contentHash);
     });
   }
 

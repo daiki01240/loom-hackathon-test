@@ -9,6 +9,18 @@ class Posts extends Component {
 
   render(){
     console.log(this.props.posts);
+
+    const IPFS_BASE = 'https://ipfs.infura.io/ipfs/';
+
+    let HasContent = (post) => {
+      console.log(post);
+      if (post.contentHash != "") {
+        return <img src={IPFS_BASE + post.contentHash} />
+      } else {
+        return ''
+      }
+    }
+
     return (
       <div className="posts mt-3 border">
         {this.props.posts.map(post => (
@@ -23,6 +35,7 @@ class Posts extends Component {
               <p>
                 {post.text}
               </p>
+              <HasContent post={post}/>
               <hr/>
               <div className="comment">
                 <img

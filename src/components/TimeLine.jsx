@@ -34,9 +34,9 @@ class TimeLine extends Component {
     await this.setPostsFromGame();
   }
 
-  async handlePostSubmit(post){
-    console.log(this.state.gameId);
-    const tx = await this.contract.newPost(post, this.state.gameId, 'test');
+  async handlePostSubmit(post, contentHash){
+    console.log(contentHash);
+    const tx = await this.contract.newPost(post, this.state.gameId, contentHash);
     this.setState({ tx });
     console.log(tx);
   }
@@ -55,7 +55,7 @@ class TimeLine extends Component {
           </div>
           <div className="main col-9">
             <PostForm
-              onSubmit={post => this.handlePostSubmit(post)}
+              onSubmit={ (post, contentHash) => this.handlePostSubmit(post, contentHash)}
             />
             <Posts
               posts={this.state.posts}
