@@ -282,6 +282,7 @@ contract DappGameCom {
         string contentHash;
         // 'video'|'image'
         string contentType;
+        uint likeCount;
     }
 
     mapping (uint => uint[]) public postsFromGame;
@@ -295,6 +296,7 @@ contract DappGameCom {
 
     event NewPostAdded(uint postId, uint commentId, uint indexed gameId, address owner);
     event NewCommentAdded(uint postId, uint commentId, address owner);
+    event NewLikeToPost(uint postId, address owner);
 
     constructor () public {
         // created the first post and comment with ID
@@ -314,7 +316,7 @@ contract DappGameCom {
     }
 
     function newPost(string _text, uint _gameId, string _contentHash, string _contentType) public {
-        Post memory post = Post(_text, _contentHash, _contentType);
+        Post memory post = Post(_text, _contentHash, _contentType, 0);
         uint postId = posts.push(post) - 1;
         postsFromAccount[msg.sender].push(postId);
         postsFromGame[_gameId].push(postId);
@@ -333,4 +335,8 @@ contract DappGameCom {
         return postsFromGame[_gameId];
     }
 
+    function likeToPost(uint _postId) public {
+        posts[_postId].likeCount++;
+        emit NewLikeToPost(_postId, msg.sender);
+    }
 }

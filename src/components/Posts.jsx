@@ -55,7 +55,13 @@ class Posts extends Component {
               */}
             </div>
             <div className="action float-right">
-                <button className="like" type="button" className="btn btn-success btn-sm">Like</button>
+                <button
+                  type="button"
+                  className="like btn btn-success btn-sm"
+                  onClick={(e) => {this.props.onClickLikeButton(post.postId)}}
+                >
+                  Like {post.likeCount}
+                </button>
             </div>
           </div>
         ))}

@@ -108,4 +108,7 @@ export default class Contract {
     return await this._contract.methods.getPostsFromGame(gameId).call()
   }
 
+  async likeToPost(postId) {
+    return await this._contract.methods.likeToPost(postId).send()
+  }
 }
