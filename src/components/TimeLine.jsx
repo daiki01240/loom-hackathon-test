@@ -28,6 +28,7 @@ class TimeLine extends Component {
           text: result.text,
           contentHash:result.contentHash,
           contentType:result.contentType,
+          likeCount:result.likeCount
         };
         return array;
       })
@@ -58,6 +59,12 @@ class TimeLine extends Component {
         this.setPostsFromGame();
       }
     );
+    this.contract._contract.events.NewLikeToPost(
+      () => {
+        console.log('PostLiked!!');
+        this.setPostsFromGame();
+      }
+    )
   }
 
   async componentDidUpdate() {
@@ -75,6 +82,11 @@ class TimeLine extends Component {
     const tx = await this.contract.getToken()
     this.setState({ tx })
     console.log(tx)
+  }
+
+  async handleLikeClick(postId) {
+    const tx = await this.contract.likeToPost(postId);
+    this.setState({ tx });
   }
 
   render(){
@@ -111,6 +123,7 @@ class TimeLine extends Component {
             />
             <Posts
               posts={this.state.posts}
+              onClickLikeButton = {(postId) => this.handleLikeClick(postId)}
             />
           </div>
         </div>
