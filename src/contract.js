@@ -7,16 +7,17 @@ import Web3 from 'web3'
 import DappGameCom from './contracts/DappGameCom.json'
 
 export default class Contract {
-  async loadContract() {
+  async loadContract(key) {
     this.onEvent = null
-    this._createClient()
+    this._createClient(key)
     this._createCurrentUserAddress()
     this._createWebInstance()
     await this._createContractInstance()
   }
 
-  _createClient() {
-    this.privateKey = CryptoUtils.generatePrivateKey()
+  _createClient(key) {
+    // this.privateKey = CryptoUtils.generatePrivateKey()
+    this.privateKey = key
     this.publicKey = CryptoUtils.publicKeyFromPrivateKey(this.privateKey)
     this.client = new Client(
       'default',
