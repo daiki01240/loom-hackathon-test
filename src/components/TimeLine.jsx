@@ -15,8 +15,7 @@ class TimeLine extends Component {
       posts: [{postId: 0, text: 'aaa', contentHash:'test'}],
       tx: '',
       user: 'DaiDai',
-      tokenBalance: 0,
-      setIntervalId: 0,
+      tokenBalance: 0
     };
   }
 
@@ -66,11 +65,8 @@ class TimeLine extends Component {
         console.log('PostLiked!!');
         this.setPostsFromGame();
       }
-    )
-  }
-
-  async componentDidUpdate() {
-    await this.contract.loadContract(this.getUserKey());
+    );
+    await this.getTokenBalance();
   }
 
   async handlePostSubmit(post, contentHash, contentType){
@@ -91,10 +87,10 @@ class TimeLine extends Component {
     this.setState({ tx });
   }
 
-  async getTokenBalance(){
+  async getTokenBalance() {
     const tokenBalance = await this.contract.getBalance();
     console.log(tokenBalance);
-    this.setState({ tokenBalance })
+    this.setState({ tokenBalance });
   }
 
   render(){
@@ -112,7 +108,11 @@ class TimeLine extends Component {
               <select
                 className="custom-select"
                 value={this.state.user}
-                onChange={e => this.setState({user: e.target.value})}
+                onChange={e => {
+                  this.state.user = e.target.value;
+                  this.setState({user: this.state.user});
+                  this.componentWillMount().then();
+                }}
               >
                 <option value="DaiDai">DaiDai</option>
                 <option value="d-machi">d-machi</option>

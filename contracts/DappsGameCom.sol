@@ -338,11 +338,10 @@ contract DappGameCom is GameTokens {
     }
 
     function likeToPost(uint _postId) public {
+        require(post.owner != msg.sender);
         Post storage post = posts[_postId];
         post.likeCount++;
-        if (post.owner != msg.sender) {
-            transfer(post.owner, 1);
-        }
+        transfer(post.owner, 1);
         emit NewLikeToPost(_postId, msg.sender);
     }
 
