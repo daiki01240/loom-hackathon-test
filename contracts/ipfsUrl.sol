@@ -1,5 +1,5 @@
 pragma solidity ^0.4.23;
-import "github.com/Arachnid/solidity-stringutils/strings.sol";
+import "./strings.sol";
 
 contract IpfsFactory {
     using strings for *;
