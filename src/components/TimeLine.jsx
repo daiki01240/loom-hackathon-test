@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import GameInfo from './GameInfo';
-import PostForm from './PostForm'
+import PostForm from './PostForm';
 import Posts from './Posts';
 
 import Contract from '../contract';
@@ -14,6 +14,7 @@ class TimeLine extends Component {
       gameId: 0,
       posts: [{postId: 0, text: 'aaa', contentHash:'test'}],
       tx: '',
+      user: '',
     };
   }
 
@@ -35,6 +36,7 @@ class TimeLine extends Component {
   }
 
   async componentWillMount() {
+    console.log(this.state.user);
     await this.contract.loadContract();
     await this.setPostsFromGame();
     this.contract._contract.events.NewPostAdded(
@@ -68,6 +70,18 @@ class TimeLine extends Component {
             <GameInfo />
           </div>
           <div className="main col-9">
+            <div className="select-account bg-light border mb-3">
+              <select
+                className="custom-select"
+                value={this.state.user}
+                onChange={e => this.setState({user: e.target.value})}
+              >
+                <option value="">Choose Account</option>
+                <option value="DaiDai">DaiDai</option>
+                <option value="d-machi">d-machi</option>
+                <option value="torike">torike</option>
+              </select>
+            </div>
             <PostForm
               onSubmit={ (post, contentHash, contentType) => this.handlePostSubmit(post, contentHash, contentType)}
             />
