@@ -267,7 +267,7 @@ contract GameTokens is StandardToken {
   }
 }
 
-contract DappGameCom {
+contract DappGameCom is GameTokens {
 
     struct Game {
         string title;
@@ -283,6 +283,7 @@ contract DappGameCom {
         // 'video'|'image'
         string contentType;
         uint likeCount;
+        address owner;
     }
 
     mapping (uint => uint[]) public postsFromGame;
@@ -316,7 +317,7 @@ contract DappGameCom {
     }
 
     function newPost(string _text, uint _gameId, string _contentHash, string _contentType) public {
-        Post memory post = Post(_text, _contentHash, _contentType, 0);
+        Post memory post = Post(_text, _contentHash, _contentType, 0, msg.sender);
         uint postId = posts.push(post) - 1;
         postsFromAccount[msg.sender].push(postId);
         postsFromGame[_gameId].push(postId);
@@ -336,7 +337,11 @@ contract DappGameCom {
     }
 
     function likeToPost(uint _postId) public {
-        posts[_postId].likeCount++;
+        Post storage post = posts[_postId];
+        post.likeCount++;
+        if (post.owner != msg.sender) {
+            transfer(post.owner, 1);
+        }
         emit NewLikeToPost(_postId, msg.sender);
     }
 }
