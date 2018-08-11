@@ -346,7 +346,4 @@ contract DappGameCom is GameTokens {
         emit NewLikeToPost(_postId, msg.sender);
     }
 
-    function getUserFromPost(uint _postId) external view returns (string) {
-        return userFromPost[_postId];
-    }
 }

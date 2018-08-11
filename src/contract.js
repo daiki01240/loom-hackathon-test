@@ -113,7 +113,12 @@ export default class Contract {
   }
 
   async getToken(){
-    console.log(this._contract.methods)
     return await this._contract.methods.MyToken().send()
   }
+
+  async getBalance(){
+    const address = this.web3.currentProvider.accounts.keys().next().value
+    return await this._contract.methods.balanceOf(address).call()
+  }
+
 }

@@ -15,6 +15,8 @@ class TimeLine extends Component {
       posts: [{postId: 0, text: 'aaa', contentHash:'test'}],
       tx: '',
       user: 'DaiDai',
+      tokenBalance: 0,
+      setIntervalId: 0,
     };
   }
 
@@ -89,6 +91,12 @@ class TimeLine extends Component {
     this.setState({ tx });
   }
 
+  async getTokenBalance(){
+    const tokenBalance = await this.contract.getBalance();
+    console.log(tokenBalance);
+    this.setState({ tokenBalance })
+  }
+
   render(){
     return (
       <div className="post-page mt-3">
@@ -110,6 +118,9 @@ class TimeLine extends Component {
                 <option value="d-machi">d-machi</option>
                 <option value="torike">torike</option>
               </select>
+              <div className="token-balance">
+                {this.state.tokenBalance} token
+              </div>
               <div className="get-token ml-1">
                 <button
                   type="button"
