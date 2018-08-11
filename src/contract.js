@@ -107,4 +107,8 @@ export default class Contract {
     return await this._contract.methods.getPostsFromGame(gameId).call()
   }
 
+  async transferToken(from, to, amount){
+    return await this._contract.methods.getPostsFromGame(from, to, amount).send()
+  }
+
 }
