@@ -17,9 +17,6 @@ const Header = () => (
           </li>
         </ul>
       </div>
-      <div className="float-right">
-        UserAccount
-      </div>
     </nav>
   </div>
 );

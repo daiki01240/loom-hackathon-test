@@ -288,6 +288,7 @@ contract DappGameCom {
     mapping (address => uint[]) public postsFromAccount;
     mapping (uint => uint[]) public commentsFromPost;
     mapping (uint => address) public commentFromAccount;
+    mapping (uint => string) public userFromPost;
 
     Game[] public games;
     Post[] public posts;
@@ -331,6 +332,10 @@ contract DappGameCom {
 
     function getPostsFromGame(uint _gameId) external view returns (uint[]){
         return postsFromGame[_gameId];
+    }
+
+    function getUserFromPost(uint _postId) external view returns (string) {
+        return userFromPost[_postId];
     }
 
 }

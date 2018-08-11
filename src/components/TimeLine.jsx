@@ -20,7 +20,7 @@ class TimeLine extends Component {
 
   async setPostsFromGame(){
     const postIds = await this.contract.getPostsFromGame(this.state.gameId);
-    const posts = await Promise.all(
+    let posts = await Promise.all(
       postIds.map( async id  => {
         const result = await this.contract.getPosts(id);
         const array = {
@@ -32,6 +32,7 @@ class TimeLine extends Component {
         return array;
       })
     );
+    posts = posts.sort((a, b) => +a.postId < +b.postId)
     this.setState({ posts });
   }
 
@@ -70,9 +71,10 @@ class TimeLine extends Component {
     console.log(tx);
   }
 
-  async confirmValue() {
-    const tx = await this.contract.setValue(this.value)
+  async getToken() {
+    const tx = await this.contract.getToken()
     this.setState({ tx })
+    console.log(tx)
   }
 
   render(){
@@ -83,17 +85,26 @@ class TimeLine extends Component {
             <GameInfo />
           </div>
           <div className="main col-9">
-            <div className="select-account bg-light border mb-3">
+            <div className="input-group select-account bg-light border mb-3">
+              <div className="input-group-prepend">
+                <label className="input-group-text">UserAccount</label>
+              </div>
               <select
                 className="custom-select"
                 value={this.state.user}
                 onChange={e => this.setState({user: e.target.value})}
               >
-                <option value="">Choose Account</option>
                 <option value="DaiDai">DaiDai</option>
                 <option value="d-machi">d-machi</option>
                 <option value="torike">torike</option>
               </select>
+              <div className="get-token ml-1">
+                <button
+                  type="button"
+                  className="btn btn-outline-success"
+                  onClick={ () => this.getToken() }
+                >Get 1000 token</button>
+              </div>
             </div>
             <PostForm
               onSubmit={ (post, contentHash, contentType) => this.handlePostSubmit(post, contentHash, contentType)}

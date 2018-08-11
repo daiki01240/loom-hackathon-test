@@ -108,4 +108,8 @@ export default class Contract {
     return await this._contract.methods.getPostsFromGame(gameId).call()
   }
 
+  async getToken(){
+    console.log(this._contract.methods)
+    return await this._contract.methods.MyToken().send()
+  }
 }
