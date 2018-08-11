@@ -10,21 +10,21 @@ class Posts extends Component {
   render(){
     console.log(this.props.posts);
 
-    const IPFS_BASE = 'https://ipfs.infura.io/ipfs/';
+    const IPFS_BASE_URL = 'https://ipfs.infura.io/ipfs/';
 
     let HasContent = (post) => {
       console.log(post);
       if (post.contentHash != "") {
-        return <img src={IPFS_BASE + post.contentHash} />
+        return <img src={IPFS_BASE_URL + post.contentHash} />
       } else {
         return ''
       }
     }
 
     return (
-      <div className="posts mt-3 border">
+      <div className="posts mt-3">
         {this.props.posts.map(post => (
-          <div className="post bg-light p-3" key={post.postId}>
+          <div className="post bg-light p-3 mb-3 border clearfix" key={post.postId}>
             <img
               src="https://pbs.twimg.com/profile_images/1006115924460486656/bi-IZ1PO_normal.jpg"
               className="rounded float-left"
@@ -36,6 +36,10 @@ class Posts extends Component {
                 {post.text}
               </p>
               <HasContent post={post}/>
+              <div className="like float-right">
+                <button type="button" className="btn btn-success btn-sm">Like</button>
+              </div>
+              {/*
               <hr/>
               <div className="comment">
                 <img
@@ -49,6 +53,7 @@ class Posts extends Component {
                   </p>
                 </div>
               </div>
+              */}
             </div>
           </div>
         ))}
