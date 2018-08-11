@@ -2,12 +2,20 @@ import React, {Component} from 'react';
 import { ipfs } from '../ipfs';
 
 class PostForm extends Component {
+  contentTypeMap;
+
   constructor(props) {
     super(props);
     this.state = {
       post: '',
       contentHash: '',
+      contentType: '',
+      error: ''
     }
+    this.contentTypeMap = new Map([
+      ['video', ['mp4']],
+      ['image', ['png', 'jpg', 'gif']]
+    ])
   }
 
   handlePostChange(post) {
@@ -23,9 +31,26 @@ class PostForm extends Component {
     event.stopPropagation();
     event.preventDefault();
     const file = event.target.files[0];
+    this.state.contentType = this._getContentType(file.name);
+    if (!this.state.contentType) {
+      this.setState({error: 'FileType not Supported'});
+      console.log(this.state.error);
+      return;
+    }
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => this.convertToBuffer(reader);
+  }
+
+  _getContentType(fileName) {
+    const extension = fileName.slice(fileName.lastIndexOf('.')+1);
+    let contentType = '';
+    for (const [key, value] of this.contentTypeMap) {
+      if (value.indexOf(extension) !== -1) {
+        contentType = key;
+      }
+    }
+    return contentType;
   }
 
   async convertToBuffer(reader) {
@@ -33,11 +58,10 @@ class PostForm extends Component {
     const buffer = await Buffer.from(reader.result);
     ipfs.add(buffer, (err, files) => {
       if (err) {
-        this.err = err;
+        this.setState({error: error});
         return;
       }
-      this.ipfsHash = files[0].hash;
-      this.setState({ contentHash: this.ipfsHash });
+      this.setState({ contentHash: files[0].hash, contentType: this.state.contentType });
       console.log(this.state.contentHash);
     });
   }
@@ -57,7 +81,7 @@ class PostForm extends Component {
             placeholder="どんな情報を共有しますか？"
             onChange={e => this.handlePostChange(e.target.value)}
            />
-          {this.err ? <div className="alert alert-danger">{this.err}</div> : ''}
+          {this.state.error ? <div className="alert alert-danger mt-2">{this.state.error}</div> : ''}
           <input
             className="content-form mt-2"
             type="file"
