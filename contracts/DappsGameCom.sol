@@ -1,5 +1,17 @@
 pragma solidity ^0.4.24;
 
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
+
+contract GameTokens is StandardToken {
+  string public name = "GameToken";
+  string public symbol = "GAME";
+  uint public decimals = 18;
+  uint public initialSupply =1000;
+  function MyToken() public {
+    totalSupply_ = initialSupply;
+    balances[msg.sender] = initialSupply;
+  }
+}
 contract DappGameCom {
 
     struct Game {
@@ -26,7 +38,8 @@ contract DappGameCom {
     Post[] public posts;
     Comment[] public comments;
 
-    event NewPostAdded(uint postId, uint commentId, address owner);
+    event NewPostAdded(uint postId, uint commentId, uint indexed gameId, address owner);
+    event NewCommentAdded(uint postId, uint commentId, address owner);
 
     constructor () public {
         // created the first post and comment with ID
@@ -50,7 +63,7 @@ contract DappGameCom {
         uint postId = posts.push(post) - 1;
         postsFromAccount[msg.sender].push(postId);
         postsFromGame[_gameId].push(postId);
-        emit NewPostAdded(postId, 0, msg.sender);
+        emit NewPostAdded(postId, 0, _gameId, msg.sender);
     }
 
     function newComment(uint _postId, string _text) public {
@@ -58,7 +71,7 @@ contract DappGameCom {
         uint commentId = comments.push(comment) - 1;
         commentsFromPost[_postId].push(commentId);
         commentFromAccount[commentId] = msg.sender;
-        emit NewPostAdded(_postId, commentId, msg.sender);
+        emit NewCommentAdded(_postId, commentId, msg.sender);
     }
 
     function getPostsFromGame(uint _gameId) external view returns (uint[]){

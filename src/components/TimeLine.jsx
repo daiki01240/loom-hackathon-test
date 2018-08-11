@@ -39,9 +39,12 @@ class TimeLine extends Component {
     await this.setPostsFromGame();
     this.contract._contract.events.NewPostAdded(
       {
-        filter: {}
+        filter: {gameId: this.state.gameId}
       },
-      (e) => {console.log(e)}
+      () => {
+        console.log('NewPostAdded!!');
+        this.setPostsFromGame();
+      }
     );
   }
 
